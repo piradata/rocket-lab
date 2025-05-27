@@ -1,0 +1,24 @@
+networks:
+  rocket-network:
+    name: 'rocket-network'
+    driver: 'bridge'
+
+volumes:
+  rocket_backend_postgres:
+    name: 'rocket_backend_postgres'
+    driver: local
+
+services:
+  postgres-backend:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '6662:5432'
+    volumes:
+      - rocket_backend_postgres:/var/lib/postgresql/data
+    networks:
+      - rocket-network
